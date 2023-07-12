@@ -17,6 +17,8 @@
 
 </head>
 <body>
+
+ 
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
     <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
         <a class="navbar-brand" href="#">Custom Logo</a>
@@ -29,11 +31,11 @@
             <li class="nav-item active">
               <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
             </li>
-           
+      
             
           </ul>
-          <form class="form-inline my-2 my-lg-0">
-                <a class="btn btn-outline-success my-2 my-sm-0">Logout</a>
+          <form class="form-inline my-2 my-lg-0" >
+                <a href ="/home/logout" class="btn btn-outline-success my-2 my-sm-0">Logout</a>
           </form>
         </div>
       </nav>
@@ -52,58 +54,59 @@
                             </p>
                         </div>                        
                     </div>
+                    @if($errors->any())
+    <div class="alert alert-danger">
+    @foreach($errors->all() as $key => $value)
+        <p class="text-center">{{$value}}</p>
+    @endforeach
+    </div>
+    @endif
+    @if($success=session('success'))
+<div class="alert alert-success">
+<p class="text-center">{{$success}}</p>
+</div>
+@endif
+@if($error=session('error'))
+<div class="alert alert-danger">
+<p class="text-center">{{$error}}</p>
+</div>
+@endif
                     <div class="card">
                             <div class="header">
-                                <h2>Comments 3</h2>
+                                <h2>Comments {{$comments_count}}</h2>
                             </div>
                             <div class="body">
+                                @foreach($comments_list as $key=> $value)
+                                
                                 <ul class="comment-reply list-unstyled">
                                     <li class="row clearfix">
                                         <div class="icon-box col-md-2 col-4"><img class="img-fluid img-thumbnail" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Awesome Image"></div>
                                         <div class="text-box col-md-10 col-8 p-l-0 p-r0">
-                                            <h5 class="m-b-0">Gigi Hadid </h5>
-                                            <p>Why are there so many tutorials on how to decouple WordPress? how fast and easy it is to get it running (and keep it running!) and its massive ecosystem. </p>
+                                            <h5 class="m-b-0">{{$value->author->name}} </h5>
+                                            <p>{{$value->comment}} </p>
                                             <ul class="list-inline">
                                                 <li><a href="javascript:void(0);">Mar 09 2018</a></li>
                                                 <li><a href="javascript:void(0);">Reply</a></li>
                                             </ul>
                                         </div>
                                     </li>
-                                    <li class="row clearfix">
-                                        <div class="icon-box col-md-2 col-4"><img class="img-fluid img-thumbnail" src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="Awesome Image"></div>
-                                        <div class="text-box col-md-10 col-8 p-l-0 p-r0">
-                                            <h5 class="m-b-0">Christian Louboutin</h5>
-                                            <p>Great tutorial but few issues with it? If i try open post i get following errors. Please can you help me?</p>
-                                            <ul class="list-inline">
-                                                <li><a href="javascript:void(0);">Mar 12 2018</a></li>
-                                                <li><a href="javascript:void(0);">Reply</a></li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                    <li class="row clearfix">
-                                        <div class="icon-box col-md-2 col-4"><img class="img-fluid img-thumbnail" src="https://bootdey.com/img/Content/avatar/avatar4.png" alt="Awesome Image"></div>
-                                        <div class="text-box col-md-10 col-8 p-l-0 p-r0">
-                                            <h5 class="m-b-0">Kendall Jenner</h5>
-                                            <p>Very nice and informative article. In all the years I've done small and side-projects as a freelancer, I've ran into a few problems here and there.</p>
-                                            <ul class="list-inline">
-                                                <li><a href="javascript:void(0);">Mar 20 2018</a></li>
-                                                <li><a href="javascript:void(0);">Reply</a></li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                </ul>                                        
+                                  
+                                   
+                                </ul> 
+                                @endforeach                                       
                             </div>
                         </div>
                         <div class="card">
                             
                             <div class="body">
                                 <div class="comment-form">
-                                    <form class="row clearfix">
+                                    <form action ="/post/{{$post_detail['id']}}" method="POST" enctype="multipart/form-data" class="row clearfix">
                                         
                                         <div class="col-sm-12">
                                             <div class="form-group">
-                                                <textarea rows="4" class="form-control no-resize" placeholder="Leave A Comment..."></textarea>
+                                                <textarea rows="4" class="form-control no-resize" name="comment" placeholder="Leave A Comment..."></textarea>
                                             </div>
+                                            <input type="hidden" name="_token" value="{{csrf_token()}}">
                                             <button type="submit" class="btn btn-block btn-primary">SUBMIT</button>
                                         </div>                                
                                     </form>
@@ -121,6 +124,7 @@
           <small>Copyright &copy; Panckaj Sood</small>
         </div>
       </footer>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 </body>
 
 </html>

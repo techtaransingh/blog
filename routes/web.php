@@ -22,6 +22,8 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/post', [App\Http\Controllers\HomeController::class, 'index']);
-Route::get('/post/{id?}', [PostController::class, 'detail']);
+Route::get('/post/{id}', [PostController::class, 'detail']);
 Route::get('/home/post', [PostController::class, 'view']);
 Route::post('/home/post', [PostController::class, 'submit']);
+Route::get('/home/logout', [App\Http\Controllers\HomeController::class, 'logout']);
+Route::post('/post/{id?}', [PostController::class, 'comment']);

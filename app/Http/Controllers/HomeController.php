@@ -50,4 +50,8 @@ class HomeController extends Controller
         // dd($posts);
       
     }
+    public function logout(Request $request){
+        $request->session()->flush();
+        return redirect('/');
+    }
 }
